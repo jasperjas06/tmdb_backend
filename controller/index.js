@@ -10,20 +10,27 @@ cloudinary.config({
 });
 const createUser = async (req, res) => {
   let mail = await User.findOne({ email: req.body.email });
-  if (mail) {
-    res.send("mail already exits");
-  } else {
-    let hashPassword = await hash.hashPassword(req.body.password);
-    let newUser = new User({
-      name: req.body.name,
-      email: req.body.email,
-      password: hashPassword,
-    });
-
-    let result = await newUser.save();
-    console.log("user", result);
-    res.send({ message: "Created" });
+  let userName = "user" + Math.floor(Math.random() * 1000000);
+  try {
+    if (mail) {
+      res.status(208).send("mail already exits");
+    } else {
+      let hashPassword = await hash.hashPassword(req.body.password);
+      let newUser = new User({
+        username: userName,
+        name: req.body.name,
+        email: req.body.email,
+        password: hashPassword,
+      });
+  
+      let result = await newUser.save();
+      console.log("user", result);
+      res.send({ message: "Created" });
+    }
+  } catch (error) {
+    console.log(error.message);
   }
+  
 };
 
 const userLogin = async (req, res) => {
