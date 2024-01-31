@@ -1,13 +1,7 @@
 import User from "../schema/User.js";
 import hash from "../middleware/hashpassword.js";
 import jwt from "jsonwebtoken";
-import { v2 as cloudinary } from "cloudinary";
-// import cloud from "../utility/cloudinary.js";
-cloudinary.config({
-  cloud_name: 'dxbes4v75',
-  api_key: '995821619138789',
-  api_secret:'3P07AQMiuJSXJcQUvrhh1-oX0f4',
-});
+
 const createUser = async (req, res) => {
   let mail = await User.findOne({ email: req.body.email });
   let userName = "user" + Math.floor(Math.random() * 1000000);
